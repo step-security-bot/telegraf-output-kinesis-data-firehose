@@ -1,0 +1,38 @@
+---
+archives:
+  - id: archive
+    name_template: '{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}'
+before:
+  hooks:
+    - go mod download
+builds:
+  - main: ./cmd/
+    binary: telegraf-output-kinesis-data-firehose
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    goarch:
+      - amd64
+      - arm64
+    goos:
+      - darwin
+      - windows
+      - linux
+    ldflags:
+      - -X github.com/muhlba91/telegraf-output-kinesis-data-firehose/cmd/main.Version={{ .Tag }}
+changelog:
+  skip: false
+  use: github
+  sort: asc
+  filters:
+    exclude:
+      - '^build(?:\([^)]+\))?:'
+      - '^chore(?:\([^)]+\))?:'
+      - '^ci(?:\([^)]+\))?:'
+      - '^docs(?:\([^)]+\))?:'
+      - '^refactor(?:\([^)]+\))?:'
+      - '^test(?:\([^)]+\))?:'
+release:
+  disable: false
+snapshot:
+  name_template: '{{ .Tag }}-SNAPSHOT'

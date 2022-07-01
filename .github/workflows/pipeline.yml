@@ -1,0 +1,138 @@
+---
+name: Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - '*'
+
+env:
+  GO111MODULE: "on"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Plugin
+    strategy:
+      max-parallel: 4
+      matrix:
+        go-version: [ 1.18.x ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '${{ matrix.go-version }}'
+
+      - name: Build
+        run: make build
+
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint Plugin
+    strategy:
+      max-parallel: 4
+      matrix:
+        go-version: [ 1.18.x ]
+        golangci-lint-version: [ v1.46.2 ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '${{ matrix.go-version }}'
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: '${{ matrix.golangci-lint-version }}'
+          args: -c .golangci.yml
+          skip-go-installation: true
+          skip-pkg-cache: true
+          skip-build-cache: true
+
+  tests:
+    runs-on: ubuntu-latest
+    name: Run Tests
+    strategy:
+      matrix:
+        go-version: [ 1.18.x ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '${{ matrix.go-version }}'
+
+      - name: Run Tests
+        run: make test
+        
+      - name: Coveralls
+        uses: shogo82148/actions-goveralls@v1
+        with:
+          path-to-profile: coverage.out
+
+  snyk:
+      runs-on: ubuntu-latest
+      name: Snyk Scanning
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+
+        - name: Run Snyk
+          uses: snyk/actions/golang@master
+          continue-on-error: true
+          env:
+            SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          with:
+            args: --severity-threshold=medium --fail-on=all --sarif-file-output=snyk.sarif
+
+        - name: Upload Snyk Result to GitHub Code Scanning
+          uses: github/codeql-action/upload-sarif@v1
+          with:
+            sarif_file: snyk.sarif
+
+  tag:
+    runs-on: ubuntu-latest
+    name: Tag Release
+    #if: github.ref == 'refs/heads/main'
+    if: ${{ false }}  # disable for now
+    needs:
+      - build
+      - lint
+      - tests
+      - snyk
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: '${{ secrets.GH_PUSH_TOKEN }}'
+      - name: Setup Git
+        run: |
+          git config --local user.email "${{ env.GITHUB_ACTION }}+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git fetch --tags
+      - name: Versioning and Changelog
+        run: |
+          npx standard-version
+      - name: Push to Repository
+        run: |
+          git push --follow-tags
