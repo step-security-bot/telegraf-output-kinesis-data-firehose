@@ -98,9 +98,10 @@ jobs:
         - name: Snyk Monitor
           uses: snyk/actions/golang@master
           continue-on-error: true
-          run: snyk monitor
           env:
             SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          with:
+            command: monitor
 
         - name: Snyk Test
           uses: snyk/actions/golang@master
