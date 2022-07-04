@@ -113,8 +113,7 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     name: Tag Release
-    #if: github.ref == 'refs/heads/main'
-    if: ${{ false }}  # disable for now
+    if: github.ref == 'refs/heads/main'
     needs:
       - build
       - lint
