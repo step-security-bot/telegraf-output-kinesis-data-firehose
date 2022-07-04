@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - '*'
+    paths-ignore:
+      - CHANGELOG.md
 
 env:
   GO111MODULE: "on"
