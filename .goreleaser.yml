@@ -2,6 +2,10 @@
 archives:
   - id: archive
     name_template: '{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}'
+    files:
+      - plugin.conf
+      - LICENSE
+      - README.md
 before:
   hooks:
     - go mod download

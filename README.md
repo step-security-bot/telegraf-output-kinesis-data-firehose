@@ -5,25 +5,49 @@
 [![](https://img.shields.io/coveralls/github/muhlba91/telegraf-output-kinesis-data-firehose?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/)
 [![](https://img.shields.io/github/release-date/muhlba91/telegraf-output-kinesis-data-firehose?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/releases)
 [![](https://img.shields.io/github/downloads/muhlba91/telegraf-output-kinesis-data-firehose/total?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/releases)
-[![](https://img.shields.io/snyk/vulnerabilities/github/muhlba91/telegraf-output-kinesis-data-firehose?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/)
 <a href="https://www.buymeacoffee.com/muhlba91" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="28" width="150"></a>
 
 This is a Telegraf output plugin that is still in the early stages of development.
 This plugin makes use of the [Telegraf Output Exec plugin](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/exec).
 It will batch up Points in one Put request to Amazon Kinesis Data Firehose.
 
-It expects that the configuration for the output ship data in line format. Here is an example configuration of the Exec Output.
+It expects that the configuration for the output ship data in line format.
 
-```toml
-[[outputs.exec]]
-  command = [ "./telegraf_kinesis_output", "-config", "/path/to/plugin.conf" ]
-  data_format = "influx"
-```
+---
 
 ## About Amazon Kinesis Data Firehose
 
 It may be useful for users to review Amazons official documentation which is
 available [here](https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html).
+
+## Usage
+
+- Download the [latest release package](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/releases/latest) for your platform.
+
+- Unpack the build to your system:
+
+```bash
+mkdir /var/lib/telegraf/firehose
+chown telegraf:telegraf /var/lib/telegraf/firehose
+tar xf telegraf-output-kinesis-data-firehose-<LATEST_VERSION>-<OS>-<ARCH>.tar.gz -C /var/lib/telegraf/firehose
+# e.g. tar xf telegraf-output-kinesis-data-firehose-v1.0.0-linux-amd64.tar.gz -C /var/lib/telegraf/firehose
+```
+
+- Edit the plugin configuration as needed:
+
+```bash
+vi /var/lib/telegraf/firehose/plugin.conf
+```
+
+- Add the plugin to `/etc/telegraf/telegraf.conf` or into a new file in `/etc/telegraf/telegraf.d`:
+
+```toml
+[[outputs.exec]]
+  command = [ "/var/lib/telegraf/firehose/telegraf-output-kinesis-data-firehose", "-config", "/var/lib/telegraf/firehose/plugin.conf" ]
+  data_format = "influx"
+```
+
+- Restart or reload Telegraf.
 
 ## AWS Authentication
 
@@ -74,17 +98,83 @@ debug = false
 
 For this output plugin to function correctly the following variables must be configured:
 
-* region
-* streamname
+- region: the AWS region to connect to
+- streamname: used to send data to the correct stream (the stream *MUST* be pre-configured prior to starting this plugin!)
 
-### region
+---
 
-The region is the Amazon region that you wish to connect to.
+## Development
 
-### streamname
+The project uses go modules which can be downloaded by running:
 
-The streamname is used by the plugin to ensure that data is sent to the correct
-Kinesis Data Firehose stream. It is important to note that the stream *MUST* be
-pre-configured for this plugin to function correctly.
-If the stream does not exist the plugin will result in
-telegraf exiting with an exit code of 1.
+```bash
+go mod download
+```
+
+### Testing
+
+1) Install all dependencies as shown above.
+2) Run `go test` by:
+
+```bash
+make test
+```
+
+### Linting and Code Style
+
+The project uses [golangci-lint](http://golangci-lint.run), and also [pre-commit](https://pre-commit.com/).
+
+1) Install all dependencies as shown above.
+2) (Optional) Install pre-commit hooks:
+
+```bash
+pre-commit install
+```
+
+3) Run linter:
+
+```bash
+make lint
+```
+
+### Commit Message
+
+This project follows [Conventional Commits](https://www.conventionalcommits.org/), and your commit message must also
+adhere to the additional rules outlined in `.conform.yaml`.
+
+---
+
+## Release
+
+To draft a release, use [standard-version](https://github.com/conventional-changelog/standard-version):
+
+```bash
+standard-version
+# alternatively
+npx standard-version
+```
+
+Finally, push with tags:
+
+```bash
+git push --follow-tags
+```
+
+**Note:** releasing is automated for the `main` branch!
+
+---
+
+## Contributions
+
+Please feel free to contribute, be it with Issues or Pull Requests! Please read
+the [Contribution guidelines](CONTRIBUTING.md)
+
+## Notes
+
+The plugin was inspired by the [Amazon Kinesis Data Stream Output Plugin](https://github.com/morfien101/telegraf-output-kinesis).
+
+## Supporting
+
+If you enjoy the application and want to support my efforts, please feel free to buy me a coffe. :)
+
+<a href="https://www.buymeacoffee.com/muhlba91" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="75" width="300"></a>
