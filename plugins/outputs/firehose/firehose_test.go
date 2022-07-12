@@ -9,11 +9,11 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsfirehose "github.com/aws/aws-sdk-go-v2/service/firehose"
 	"github.com/aws/aws-sdk-go-v2/service/firehose/types"
+	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/serializer"
+	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/serializer/json"
 	"github.com/stretchr/testify/require"
 
 	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/serializers"
-	"github.com/influxdata/telegraf/plugins/serializers/json"
 	"github.com/influxdata/telegraf/testutil"
 )
 
@@ -428,7 +428,7 @@ func (m *mockFirehosePutRecordBatch) AssertRequests(
 func createTestMetric(
 	t *testing.T,
 	name string,
-	serializer serializers.Serializer,
+	serializer *json.Serializer,
 ) (telegraf.Metric, []byte) {
 	metric := testutil.TestMetric(1, name)
 
@@ -441,7 +441,7 @@ func createTestMetric(
 func createTestMetrics(
 	t *testing.T,
 	count uint32,
-	serializer serializers.Serializer,
+	serializer *json.Serializer,
 ) ([]telegraf.Metric, [][]byte) {
 	metrics := make([]telegraf.Metric, count)
 	metricsData := make([][]byte, count)
@@ -472,6 +472,10 @@ func createRecordEntries(
 }
 
 func createSerializer() *json.Serializer {
-	serializer, _ := json.NewSerializer(time.Nanosecond, time.RFC3339)
+	serializer, _ := json.NewSerializer(time.Nanosecond, time.RFC3339, &serializer.Formatter{
+		Flatten:       false,
+		NameKeyRename: "",
+		NormalizeKeys: false,
+	})
 	return serializer
 }

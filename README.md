@@ -7,9 +7,11 @@
 [![](https://img.shields.io/github/downloads/muhlba91/telegraf-output-kinesis-data-firehose/total?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/releases)
 <a href="https://www.buymeacoffee.com/muhlba91" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="28" width="150"></a>
 
-This is a Telegraf output plugin that is still in the early stages of development.
 This plugin makes use of the [Telegraf Output Exec plugin](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/exec).
 It will batch up Points in one Put request to Amazon Kinesis Data Firehose.
+
+The plugin also provides optional common formatting options, like normalizing keys and flattening the output.
+Such configuration can be used to provide data ingestion without the need of a data transformation function.
 
 It expects that the configuration for the output ship data in line format.
 
@@ -94,6 +96,19 @@ streamname = "DeliveryStreamName"
 
 ## 'debug' will show upstream AWS messages.
 debug = false
+
+## 'format' provides formatting options
+#[format]
+  ## 'flatten' flattens all tags and fields into top-level keys
+  #flatten = false
+  ## 'normalize_keys' normalizes all keys to:
+  ## 1/ convert to lower case, and
+  ## 2/ replace spaces (' ') with underscores ('_')
+  #normalize_keys = false
+  ## 'name_key_rename' renames the 'name' field to the provided value
+  #name_key_rename = ""
+  ## 'timestamp_as_rfc3339' parses the timestamp into RFC3339 instead of a unix timestamp (nanoseconds)
+  #timestamp_as_rfc3339 = false
 ```
 
 For this output plugin to function correctly the following variables must be configured:

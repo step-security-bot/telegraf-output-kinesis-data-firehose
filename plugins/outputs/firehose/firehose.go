@@ -13,7 +13,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/influxdata/telegraf"
 	internalaws "github.com/influxdata/telegraf/config/aws"
-	"github.com/influxdata/telegraf/plugins/serializers/json"
+	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/serializer"
+	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/serializer/json"
 )
 
 // DO NOT REMOVE THE NEXT TWO LINES! This is required to embed the sampleConfig data.
@@ -25,8 +26,9 @@ const maxRecordsPerRequest uint32 = 500
 
 type (
 	Output struct {
-		StreamName string `toml:"streamname"`
-		Debug      bool   `toml:"debug"`
+		StreamName string               `toml:"streamname"`
+		Debug      bool                 `toml:"debug"`
+		Format     serializer.Formatter `toml:"format"`
 
 		serializer *json.Serializer
 		svc        firehoseClient
@@ -57,7 +59,11 @@ func NewOutput(configFilePath string) (*Output, error) {
 		return nil, err
 	}
 
-	serializer, err := json.NewSerializer(time.Nanosecond, time.RFC3339)
+	tf := ""
+	if output.Format.TimestampAsRFC3339 {
+		tf = time.RFC3339
+	}
+	serializer, err := json.NewSerializer(time.Nanosecond, tf, &output.Format)
 	if err != nil {
 		return nil, err
 	}
