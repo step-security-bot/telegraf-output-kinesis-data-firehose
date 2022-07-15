@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.3.0](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v1.2.0...v1.3.0) (2022-07-15)
+
+
+### Features
+
+* add unix timestamp unit for output ([59b2e98](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/59b2e9826162863932bea1a7c202fefb67fde958))
+
 ## [1.2.0](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v1.1.1...v1.2.0) (2022-07-12)
 
 
