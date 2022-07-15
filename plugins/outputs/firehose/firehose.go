@@ -63,7 +63,13 @@ func NewOutput(configFilePath string) (*Output, error) {
 	if output.Format.TimestampAsRFC3339 {
 		tf = time.RFC3339
 	}
-	serializer, err := json.NewSerializer(time.Nanosecond, tf, &output.Format)
+	tu := time.Millisecond
+	if len(output.Format.TimestampUnits) > 0 {
+		if tu, err = time.ParseDuration(output.Format.TimestampUnits); err != nil {
+			return nil, err
+		}
+	}
+	serializer, err := json.NewSerializer(tu, tf, &output.Format)
 	if err != nil {
 		return nil, err
 	}
