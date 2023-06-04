@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.4.0](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v1.3.0...v1.4.0) (2023-06-04)
+
+
+### Features
+
+* update plugins ([be1c466](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/be1c4662aee33e63c4de4f521bb24254c50b36a5))
+
 ## [1.3.0](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v1.2.0...v1.3.0) (2022-07-15)
 
 
