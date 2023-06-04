@@ -1,13 +1,13 @@
 ---
 repos:
   - repo: https://github.com/talos-systems/conform
-    rev: v0.1.0-alpha.26
+    rev: v0.1.0-alpha.27
     hooks:
       - id: conform
         stages:
           - commit-msg
   - repo: https://github.com/Bahjat/pre-commit-golang
-    rev: v1.0.1
+    rev: v1.0.3
     hooks:
       - id: gofumpt
       - id: golangci-lint
@@ -15,11 +15,11 @@ repos:
             "-c .golangci.yml"
         ]
   - repo: https://github.com/syntaqx/git-hooks
-    rev: v0.0.17
+    rev: v0.0.18
     hooks:
       - id: go-mod-tidy
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: check-json
       - id: check-merge-conflict

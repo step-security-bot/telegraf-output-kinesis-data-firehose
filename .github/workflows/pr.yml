@@ -4,10 +4,6 @@ name: Pull Request
 on:
   pull_request:
 
-permissions:
-  contents: read
-  pull-requests: read
-
 env:
   GO111MODULE: "on"
 
@@ -18,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
