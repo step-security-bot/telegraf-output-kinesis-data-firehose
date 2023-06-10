@@ -3,7 +3,7 @@ module github.com/muhlba91/telegraf-output-kinesis-data-firehose
 go 1.18
 
 require (
-	github.com/BurntSushi/toml v0.4.1
+	github.com/BurntSushi/toml v1.3.2
 	github.com/aws/aws-sdk-go v1.38.3
 	github.com/aws/aws-sdk-go-v2 v1.16.6
 	github.com/aws/aws-sdk-go-v2/service/firehose v1.14.8
