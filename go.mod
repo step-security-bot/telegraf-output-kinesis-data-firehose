@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/BurntSushi/toml v1.3.2
-	github.com/aws/aws-sdk-go v1.38.3
+	github.com/aws/aws-sdk-go v1.44.280
 	github.com/aws/aws-sdk-go-v2 v1.16.6
 	github.com/aws/aws-sdk-go-v2/service/firehose v1.14.8
 	github.com/influxdata/telegraf v1.23.0
@@ -53,8 +53,8 @@ require (
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/testcontainers/testcontainers-go v0.12.0 // indirect
 	go.opencensus.io v0.23.0 // indirect
-	golang.org/x/net v0.0.0-20220531201128-c960675eff93 // indirect
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
+	golang.org/x/net v0.1.0 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	google.golang.org/genproto v0.0.0-20220207164111-0872dc986b00 // indirect
 	google.golang.org/grpc v1.46.2 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
