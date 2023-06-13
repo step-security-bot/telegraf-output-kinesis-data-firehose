@@ -7,6 +7,12 @@
 [![](https://img.shields.io/github/downloads/muhlba91/telegraf-output-kinesis-data-firehose/total?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/releases)
 <a href="https://www.buymeacoffee.com/muhlba91" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="28" width="150"></a>
 
+---
+
+**:warning: :warning: :warning: Attention: this plugin is about to be sunsetted, and is currently not maintained anymore!**
+
+---
+
 This plugin makes use of the [Telegraf Output Exec plugin](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/exec).
 It will batch up Points in one Put request to Amazon Kinesis Data Firehose.
 
