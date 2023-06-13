@@ -1,7 +1,7 @@
 # Telegraf Output Plugin for Amazon Kinesis Data Firehose
 
 [![](https://img.shields.io/github/license/muhlba91/telegraf-output-kinesis-data-firehose?style=for-the-badge)](LICENSE)
-[![](https://img.shields.io/github/workflow/status/muhlba91/telegraf-output-kinesis-data-firehose/Release?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/actions)
+[![](https://img.shields.io/github/actions/workflow/status/muhlba91/telegraf-output-kinesis-data-firehose/verify.yml?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/actions/workflows/verify.yml)
 [![](https://img.shields.io/coveralls/github/muhlba91/telegraf-output-kinesis-data-firehose?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/)
 [![](https://img.shields.io/github/release-date/muhlba91/telegraf-output-kinesis-data-firehose?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/releases)
 [![](https://img.shields.io/github/downloads/muhlba91/telegraf-output-kinesis-data-firehose/total?style=for-the-badge)](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/releases)
@@ -158,26 +158,6 @@ make lint
 
 This project follows [Conventional Commits](https://www.conventionalcommits.org/), and your commit message must also
 adhere to the additional rules outlined in `.conform.yaml`.
-
----
-
-## Release
-
-To draft a release, use [standard-version](https://github.com/conventional-changelog/standard-version):
-
-```bash
-standard-version
-# alternatively
-npx standard-version
-```
-
-Finally, push with tags:
-
-```bash
-git push --follow-tags
-```
-
-**Note:** releasing is automated for the `main` branch!
 
 ---
 
