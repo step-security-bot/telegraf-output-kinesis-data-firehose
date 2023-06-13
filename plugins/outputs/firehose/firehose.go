@@ -12,7 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/firehose/types"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/influxdata/telegraf"
-	internalaws "github.com/influxdata/telegraf/config/aws"
+	internalaws "github.com/influxdata/telegraf/plugins/common/aws"
 	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/serializer"
 	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/serializer/json"
 )

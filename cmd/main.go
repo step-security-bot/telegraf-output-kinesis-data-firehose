@@ -40,7 +40,12 @@ func main() {
 		return
 	}
 
-	parser := influxparser.NewParser(influxparser.NewMetricHandler())
+	parser := influxparser.Parser{}
+	initErr := parser.Init()
+	if initErr != nil {
+		terminate("Failed to instantiate the parser: %s", initErr)
+	}
+
 	metricList, err := parser.Parse(stdinBytes)
 	if err != nil {
 		terminate("Failed to convert the metrics: %s", err)
