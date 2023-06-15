@@ -36,6 +36,8 @@ github.com/aws/aws-sdk-go-v2/service/firehose v1.16.12 h1:uofvnacgx7oPy5dAbtmyLB
 github.com/aws/aws-sdk-go-v2/service/firehose v1.16.12/go.mod h1:D43fmAh+MPDwmsTohHRToEn1A9FRCEAeEifg5RwTS1Y=
 github.com/aws/aws-sdk-go-v2/service/firehose v1.16.13 h1:dl2u3W21Eb7x85OxvHzOc9w5tFcQS9CQry9SzJ01Zoc=
 github.com/aws/aws-sdk-go-v2/service/firehose v1.16.13/go.mod h1:x2OPA3CF6mWhsidNUteU2JUdUksiUqSTOf3AJZGrG6U=
+github.com/aws/aws-sdk-go-v2/service/firehose v1.16.14 h1:hVxc3OommwdeNp5lFAGw9UctWnvRL9xX9oa2+j/+aiY=
+github.com/aws/aws-sdk-go-v2/service/firehose v1.16.14/go.mod h1:x2OPA3CF6mWhsidNUteU2JUdUksiUqSTOf3AJZGrG6U=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.27 h1:0iKliEXAcCa2qVtRs7Ot5hItA2MsufrphbRFlz1Owxo=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.27/go.mod h1:EOwBD4J4S5qYszS5/3DpkejfuK+Z5/1uzICfPaZLtqw=
 github.com/aws/aws-sdk-go-v2/service/sso v1.12.10 h1:UBQjaMTCKwyUYwiVnUt6toEJwGXsLBI6al083tpjJzY=
