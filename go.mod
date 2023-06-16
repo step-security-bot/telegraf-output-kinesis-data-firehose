@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/BurntSushi/toml v1.3.2
-	github.com/aws/aws-sdk-go v1.44.283
+	github.com/aws/aws-sdk-go v1.44.284
 	github.com/aws/aws-sdk-go-v2 v1.18.1
 	github.com/aws/aws-sdk-go-v2/service/firehose v1.16.14
 	github.com/influxdata/telegraf v1.27.0
