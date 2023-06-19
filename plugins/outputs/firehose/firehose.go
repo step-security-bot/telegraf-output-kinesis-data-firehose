@@ -3,14 +3,15 @@ package firehose
 import (
 	"context"
 	_ "embed"
-	"io/ioutil"
+	"errors"
 	"log"
+	"os"
 	"time"
 
 	"github.com/BurntSushi/toml"
+	"github.com/aws/aws-sdk-go-v2/aws"
 	awsfirehose "github.com/aws/aws-sdk-go-v2/service/firehose"
 	"github.com/aws/aws-sdk-go-v2/service/firehose/types"
-	"github.com/aws/aws-sdk-go/aws"
 	"github.com/influxdata/telegraf"
 	internalaws "github.com/influxdata/telegraf/plugins/common/aws"
 	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/serializer"
@@ -29,6 +30,7 @@ type (
 	Output struct {
 		StreamName string               `toml:"streamname"`
 		Debug      bool                 `toml:"debug"`
+		BatchSize  uint32               `toml:"batchsize"`
 		Format     serializer.Formatter `toml:"format"`
 
 		serializer *json.Serializer
@@ -47,7 +49,7 @@ func SampleConfig() string {
 }
 
 func NewOutput(configFilePath string) (*Output, error) {
-	cfgBytes, err := ioutil.ReadFile(configFilePath)
+	cfgBytes, err := os.ReadFile(configFilePath)
 	if err != nil {
 		return nil, err
 	}
@@ -73,6 +75,13 @@ func NewOutput(configFilePath string) (*Output, error) {
 	serializer, err := json.NewSerializer(tu, tf, &output.Format)
 	if err != nil {
 		return nil, err
+	}
+	if output.BatchSize <= 0 || output.BatchSize > maxRecordsPerRequest {
+		output.BatchSize = maxRecordsPerRequest
+	}
+
+	if len(output.StreamName) == 0 {
+		return nil, errors.New("No stream set")
 	}
 
 	output.serializer = serializer
@@ -133,7 +142,7 @@ func (k *Output) Write(metrics []telegraf.Metric) error {
 		}
 		r = append(r, d)
 
-		if sz == maxRecordsPerRequest {
+		if sz >= k.BatchSize {
 			elapsed := k.writeFirehose(r)
 			if k.Debug {
 				log.Printf("Wrote a %d point batch to Amazon Kinesis Data Firehose %s in %+v.", sz, k.StreamName, elapsed)

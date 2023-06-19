@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 
@@ -31,7 +31,7 @@ func main() {
 		return
 	}
 
-	stdinBytes, err := ioutil.ReadAll(bufio.NewReader(os.Stdin))
+	stdinBytes, err := io.ReadAll(bufio.NewReader(os.Stdin))
 	if err != nil {
 		terminate("Failed to read passed in data: %s", err)
 	}

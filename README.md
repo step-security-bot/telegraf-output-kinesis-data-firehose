@@ -9,7 +9,7 @@
 
 ---
 
-**:warning: :warning: :warning: Attention: this plugin is about to be sunsetted, and is currently not maintained anymore!**
+**:warning: Attention: first, and foremost, this plugin is developed for personal use. In fact, it is not - and will not be - fully production ready!**
 
 ---
 
@@ -103,6 +103,10 @@ streamname = "DeliveryStreamName"
 ## 'debug' will show upstream AWS messages.
 debug = false
 
+## 'batchsize' will batch incoming messages for forwarding them to the stream.
+## The maximum batch size is 500 as per AWS documentation.
+batchsize = 500
+
 ## 'format' provides formatting options
 #[format]
   ## 'flatten' flattens all tags and fields into top-level keys
@@ -125,52 +129,6 @@ For this output plugin to function correctly the following variables must be con
 - streamname: used to send data to the correct stream (the stream *MUST* be pre-configured prior to starting this plugin!)
 
 ---
-
-## Development
-
-The project uses go modules which can be downloaded by running:
-
-```bash
-go mod download
-```
-
-### Testing
-
-1) Install all dependencies as shown above.
-2) Run `go test` by:
-
-```bash
-make test
-```
-
-### Linting and Code Style
-
-The project uses [golangci-lint](http://golangci-lint.run), and also [pre-commit](https://pre-commit.com/).
-
-1) Install all dependencies as shown above.
-2) (Optional) Install pre-commit hooks:
-
-```bash
-pre-commit install
-```
-
-3) Run linter:
-
-```bash
-make lint
-```
-
-### Commit Message
-
-This project follows [Conventional Commits](https://www.conventionalcommits.org/), and your commit message must also
-adhere to the additional rules outlined in `.conform.yaml`.
-
----
-
-## Contributions
-
-Please feel free to contribute, be it with Issues or Pull Requests! Please read
-the [Contribution guidelines](CONTRIBUTING.md)
 
 ## Notes
 
