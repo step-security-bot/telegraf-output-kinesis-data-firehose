@@ -483,11 +483,9 @@ func TestInit(t *testing.T) {
 
 func TestInit_WhenTimestampAsRFC3339(t *testing.T) {
 	k := Firehose{
-		StreamName: testStreamName,
-		BatchSize:  maxRecordsPerRequest,
-		Format: serializer.Formatter{
-			TimestampAsRFC3339: true,
-		},
+		StreamName:         testStreamName,
+		BatchSize:          maxRecordsPerRequest,
+		TimestampAsRFC3339: true,
 	}
 	err := k.Init()
 	require.NoError(t, err, "Should not return error")
@@ -495,11 +493,9 @@ func TestInit_WhenTimestampAsRFC3339(t *testing.T) {
 
 func TestInit_WhenTimestampUnits(t *testing.T) {
 	k := Firehose{
-		StreamName: testStreamName,
-		BatchSize:  maxRecordsPerRequest,
-		Format: serializer.Formatter{
-			TimestampUnits: "10ms",
-		},
+		StreamName:     testStreamName,
+		BatchSize:      maxRecordsPerRequest,
+		TimestampUnits: "10ms",
 	}
 	err := k.Init()
 	require.NoError(t, err, "Should not return error")
@@ -542,11 +538,9 @@ func TestInit_WhenNilStreamName(t *testing.T) {
 
 func TestInit_WhenTimestampUnitsInvalid(t *testing.T) {
 	k := Firehose{
-		StreamName: testStreamName,
-		BatchSize:  maxRecordsPerRequest,
-		Format: serializer.Formatter{
-			TimestampUnits: "1abc",
-		},
+		StreamName:     testStreamName,
+		BatchSize:      maxRecordsPerRequest,
+		TimestampUnits: "1abc",
 	}
 	err := k.Init()
 	require.Error(t, err, "Should return error")

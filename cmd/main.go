@@ -12,6 +12,8 @@ import (
 	"github.com/influxdata/telegraf/plugins/common/shim"
 )
 
+var Version string
+
 var pollInterval = flag.Duration("poll_interval", 1*time.Second, "how often to send metrics")
 
 var pollIntervalDisabled = flag.Bool(
@@ -26,6 +28,8 @@ var (
 )
 
 func main() {
+	log.Printf("aws kinesis data firehose plugin version: %s", Version)
+
 	// Parse command line options.
 	flag.Parse()
 	if *pollIntervalDisabled {

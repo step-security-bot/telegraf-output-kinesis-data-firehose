@@ -28,15 +28,27 @@ const maxRecordsPerRequest uint32 = 500
 
 type (
 	Firehose struct {
-		StreamName string               `toml:"streamname"`
-		Debug      bool                 `toml:"debug"`
-		BatchSize  uint32               `toml:"batchsize"`
-		Format     serializer.Formatter `toml:"format"`
+		// AWS credentials
+		internalaws.CredentialConfig
+
+		// AWS Kinesis Firehose stream
+		StreamName string `toml:"stream_name"`
+
+		// Formatting Options
+		Flatten            bool   `toml:"flatten"`
+		NormalizeKeys      bool   `toml:"normalize_keys"`
+		NameKeyRename      string `toml:"name_key_rename"`
+		TimestampUnits     string `toml:"timestamp_units"`
+		TimestampAsRFC3339 bool   `toml:"timestamp_as_rfc3339"`
+
+		// Batch processing
+		BatchSize uint32 `toml:"batch_size"`
+
+		// Debug logging
+		Debug bool `toml:"debug"`
 
 		serializer *json.Serializer
 		svc        Client
-
-		internalaws.CredentialConfig
 	}
 )
 
@@ -58,20 +70,26 @@ func (f *Firehose) Init() error {
 
 	// Validate time formatting options.
 	tf := ""
-	if f.Format.TimestampAsRFC3339 {
+	if f.TimestampAsRFC3339 {
 		tf = time.RFC3339
 		f.debug("setting timestamp parsing to RFC3339")
 	}
 	tu := time.Millisecond
-	if len(f.Format.TimestampUnits) > 0 {
-		if tu, err = time.ParseDuration(f.Format.TimestampUnits); err != nil {
+	if len(f.TimestampUnits) > 0 {
+		if tu, err = time.ParseDuration(f.TimestampUnits); err != nil {
 			return err
 		}
 		f.debug(fmt.Sprintf("setting timestamp units to %s", tu.String()))
 	}
 
 	// Initialize JSON serializer.
-	serializer, err := json.NewSerializer(tu, tf, &f.Format)
+	serializer, err := json.NewSerializer(tu, tf, &serializer.Formatter{
+		Flatten:            f.Flatten,
+		NormalizeKeys:      f.NormalizeKeys,
+		NameKeyRename:      f.NameKeyRename,
+		TimestampUnits:     f.TimestampUnits,
+		TimestampAsRFC3339: f.TimestampAsRFC3339,
+	})
 	if err != nil {
 		return err
 	}
