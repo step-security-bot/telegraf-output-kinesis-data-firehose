@@ -86,11 +86,16 @@ The required AWS IAM Policy is:
         {
             "Action": [
                 "firehose:PutRecordBatch",
-                "firehose:PutRecord",
-                "firehose:DescribeDeliveryStream"
+                "firehose:PutRecord"
             ],
             "Effect": "Allow",
-            "Resource":  "arn:aws:firehose:REGION:ACCOUNT_ID:deliverystream/STREAM_NAME",
+            "Resource": "arn:aws:firehose:eu-west-1:126125163971:deliverystream/aws-firehose-homeassistant-stream-c49c07d",
+            "Sid": ""
+        },
+        {
+            "Action": "firehose:DescribeDeliveryStream",
+            "Effect": "Allow",
+            "Resource": "*",
             "Sid": ""
         }
     ],
