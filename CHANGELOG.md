@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [3.0.1](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v3.0.0...v3.0.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* fix toml loading by moving them top level ([34698bc](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/34698bc8a414af5ec5e22568d63121830dc523e0))
+
 ## [3.0.0](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v2.0.1...v3.0.0) (2023-06-23)
 
 
