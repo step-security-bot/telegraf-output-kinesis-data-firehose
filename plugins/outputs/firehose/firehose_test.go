@@ -14,6 +14,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/influxdata/telegraf"
+	internalaws "github.com/influxdata/telegraf/plugins/common/aws"
 	"github.com/influxdata/telegraf/testutil"
 )
 
@@ -41,14 +42,49 @@ func TestWriteFirehose_WhenSuccess(t *testing.T) {
 		},
 	)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		svc:        svc,
 	}
 
-	elapsed := k.writeFirehose(records)
-	require.GreaterOrEqual(t, elapsed.Nanoseconds(), zero)
+	err := k.writeToFirehose(records)
+	require.NoError(t, err)
+
+	svc.AssertRequests(t, []*awsfirehose.PutRecordBatchInput{
+		{
+			DeliveryStreamName: aws.String(testStreamName),
+			Records:            records,
+		},
+	})
+}
+
+func TestWriteFirehose_WhenSuccess_WithDebugLogging(t *testing.T) {
+	records := []types.Record{
+		{
+			Data: []byte{0x65},
+		},
+	}
+
+	svc := &mockFirehosePutRecordBatch{}
+	svc.SetupResponse(
+		0,
+		[]types.PutRecordBatchResponseEntry{
+			{
+				RecordId: aws.String(testRecordID),
+			},
+		},
+	)
+
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+		Debug:      true,
+		svc:        svc,
+	}
+
+	err := k.writeToFirehose(records)
+	require.NoError(t, err)
 
 	svc.AssertRequests(t, []*awsfirehose.PutRecordBatchInput{
 		{
@@ -76,14 +112,14 @@ func TestWriteFirehose_WhenRecordErrors(t *testing.T) {
 		},
 	)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		svc:        svc,
 	}
 
-	elapsed := k.writeFirehose(records)
-	require.GreaterOrEqual(t, elapsed.Nanoseconds(), zero)
+	err := k.writeToFirehose(records)
+	require.NoError(t, err)
 
 	svc.AssertRequests(t, []*awsfirehose.PutRecordBatchInput{
 		{
@@ -105,14 +141,14 @@ func TestWriteFirehose_WhenServiceError(t *testing.T) {
 		&types.InvalidArgumentException{Message: aws.String("Invalid record")},
 	)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		svc:        svc,
 	}
 
-	elapsed := k.writeFirehose(records)
-	require.GreaterOrEqual(t, elapsed.Nanoseconds(), zero)
+	err := k.writeToFirehose(records)
+	require.Error(t, err)
 
 	svc.AssertRequests(t, []*awsfirehose.PutRecordBatchInput{
 		{
@@ -126,7 +162,7 @@ func TestWrite_NoMetrics(t *testing.T) {
 	serializer := createSerializer()
 	svc := &mockFirehosePutRecordBatch{}
 
-	k := Output{
+	k := Firehose{
 		StreamName: "stream",
 		BatchSize:  maxRecordsPerRequest,
 		serializer: serializer,
@@ -145,7 +181,7 @@ func TestWrite_SingleMetric(t *testing.T) {
 	svc := &mockFirehosePutRecordBatch{}
 	svc.SetupGenericResponse(1, 0)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		serializer: serializer,
@@ -168,13 +204,33 @@ func TestWrite_SingleMetric(t *testing.T) {
 	})
 }
 
+func TestWrite_SingleMetric_WhenServiceError(t *testing.T) {
+	serializer := createSerializer()
+
+	svc := &mockFirehosePutRecordBatch{}
+	svc.SetupErrorResponse(
+		&types.InvalidArgumentException{Message: aws.String("Invalid record")},
+	)
+
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+		svc:        svc,
+		serializer: serializer,
+	}
+
+	metric, _ := createTestMetric(t, "metric1", serializer)
+	err := k.Write([]telegraf.Metric{metric})
+	require.Error(t, err)
+}
+
 func TestWrite_MultipleMetrics_SinglePartialRequest(t *testing.T) {
 	serializer := createSerializer()
 
 	svc := &mockFirehosePutRecordBatch{}
 	svc.SetupGenericResponse(3, 0)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		serializer: serializer,
@@ -195,13 +251,45 @@ func TestWrite_MultipleMetrics_SinglePartialRequest(t *testing.T) {
 	})
 }
 
+func TestWrite_MultipleMetrics_WhenServiceError(t *testing.T) {
+	serializer := createSerializer()
+
+	svc := &mockFirehosePutRecordBatch{}
+	svc.SetupErrorResponse(
+		&types.InvalidArgumentException{Message: aws.String("Invalid record")},
+	)
+	svc.SetupGenericResponse(1, 0)
+
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  1,
+		svc:        svc,
+		serializer: serializer,
+	}
+
+	metric, metricData := createTestMetric(t, "metric1", serializer)
+	err := k.Write([]telegraf.Metric{metric})
+	require.Error(t, err)
+
+	svc.AssertRequests(t, []*awsfirehose.PutRecordBatchInput{
+		{
+			DeliveryStreamName: aws.String(testStreamName),
+			Records: []types.Record{
+				{
+					Data: metricData,
+				},
+			},
+		},
+	})
+}
+
 func TestWrite_MultipleMetrics_SingleFullRequest(t *testing.T) {
 	serializer := createSerializer()
 
 	svc := &mockFirehosePutRecordBatch{}
 	svc.SetupGenericResponse(maxRecordsPerRequest, 0)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		serializer: serializer,
@@ -229,7 +317,7 @@ func TestWrite_MultipleMetrics_MultipleRequests(t *testing.T) {
 	svc.SetupGenericResponse(maxRecordsPerRequest, 0)
 	svc.SetupGenericResponse(1, 0)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		serializer: serializer,
@@ -263,7 +351,7 @@ func TestWrite_MultipleMetrics_MultipleFullRequests(t *testing.T) {
 	svc.SetupGenericResponse(maxRecordsPerRequest, 0)
 	svc.SetupGenericResponse(maxRecordsPerRequest, 0)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		serializer: serializer,
@@ -297,7 +385,7 @@ func TestWrite_MultipleMetrics_MultipleRequests_BatchSize(t *testing.T) {
 	svc.SetupGenericResponse(testBatchSize, 0)
 	svc.SetupGenericResponse(1, 0)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  testBatchSize,
 		serializer: serializer,
@@ -330,7 +418,7 @@ func TestWrite_SerializerError(t *testing.T) {
 	svc := &mockFirehosePutRecordBatch{}
 	svc.SetupGenericResponse(2, 0)
 
-	k := Output{
+	k := Firehose{
 		StreamName: testStreamName,
 		BatchSize:  maxRecordsPerRequest,
 		serializer: serializer,
@@ -366,63 +454,116 @@ func TestWrite_SerializerError(t *testing.T) {
 	})
 }
 
-func TestLoadFromConfig(t *testing.T) {
-	k, err := NewOutput("test_files/minimal.conf")
-	require.NoError(t, err, "Should not return error")
-	require.Equal(t, k.StreamName, "streamname")
-	require.Equal(t, k.Debug, false)
-	require.Equal(t, k.BatchSize, maxRecordsPerRequest)
-
-	k, err = NewOutput("test_files/debug.conf")
-	require.NoError(t, err, "Should not return error")
-	require.Equal(t, k.StreamName, "streamname")
-	require.Equal(t, k.Debug, true)
-	require.Equal(t, k.BatchSize, maxRecordsPerRequest)
-
-	_, err = NewOutput("test_files/empty.conf")
-	require.Error(t, err, "Should return error")
-
-	_, err = NewOutput("test_files/not_existing.conf")
-	require.Error(t, err, "Should return error")
-}
-
-func TestLoadFromConfig_BatchSize(t *testing.T) {
-	k, err := NewOutput("test_files/batchsize.conf")
-	require.NoError(t, err, "Should not return error")
-	require.Equal(t, k.BatchSize, uint32(5))
-
-	k, err = NewOutput("test_files/batchsize_too_large.conf")
-	require.NoError(t, err, "Should not return error")
-	require.Equal(t, k.BatchSize, maxRecordsPerRequest)
-
-	_, err = NewOutput("test_files/batchsize_negative.conf")
-	require.Error(t, err, "Should return error")
-}
-
-func TestLoadFromConfig_Format(t *testing.T) {
-	k, err := NewOutput("test_files/minimal.conf")
-	require.NoError(t, err, "Should not return error")
-	require.Equal(t, k.Format.TimestampAsRFC3339, false)
-
-	k, err = NewOutput("test_files/format_timestamp_as_rfc3339.conf")
-	require.NoError(t, err, "Should not return error")
-	require.Equal(t, k.Format.TimestampAsRFC3339, true)
-
-	k, err = NewOutput("test_files/format_timestamp_units.conf")
-	require.NoError(t, err, "Should not return error")
-	require.Equal(t, k.Format.TimestampUnits, "1ms")
-
-	_, err = NewOutput("test_files/format_invalid_timestamp_units.conf")
-	require.Error(t, err, "Should return error")
-
-	_, err = NewOutput("test_files/format_invalid.conf")
-	require.Error(t, err, "Should return error")
-}
-
 func TestClose(t *testing.T) {
-	k, _ := NewOutput("test_files/minimal.conf")
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+	}
 	err := k.Close()
 	require.NoError(t, err, "Should not return error")
+}
+
+func TestSampleConfig(t *testing.T) {
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+	}
+	c := k.SampleConfig()
+	require.NotEmpty(t, c)
+}
+
+func TestInit(t *testing.T) {
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+	}
+	err := k.Init()
+	require.NoError(t, err, "Should not return error")
+}
+
+func TestInit_WhenTimestampAsRFC3339(t *testing.T) {
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+		Format: serializer.Formatter{
+			TimestampAsRFC3339: true,
+		},
+	}
+	err := k.Init()
+	require.NoError(t, err, "Should not return error")
+}
+
+func TestInit_WhenTimestampUnits(t *testing.T) {
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+		Format: serializer.Formatter{
+			TimestampUnits: "10ms",
+		},
+	}
+	err := k.Init()
+	require.NoError(t, err, "Should not return error")
+}
+
+func TestInit_WhenBatchSizeZero(t *testing.T) {
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  0,
+	}
+	err := k.Init()
+	require.Error(t, err, "Should return error")
+}
+
+func TestInit_WhenBatchSizeTooLarge(t *testing.T) {
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest + 1,
+	}
+	err := k.Init()
+	require.Error(t, err, "Should return error")
+}
+
+func TestInit_WhenNoStreamName(t *testing.T) {
+	k := Firehose{
+		StreamName: "",
+		BatchSize:  maxRecordsPerRequest,
+	}
+	err := k.Init()
+	require.Error(t, err, "Should return error")
+}
+
+func TestInit_WhenNilStreamName(t *testing.T) {
+	k := Firehose{
+		BatchSize: maxRecordsPerRequest,
+	}
+	err := k.Init()
+	require.Error(t, err, "Should return error")
+}
+
+func TestInit_WhenTimestampUnitsInvalid(t *testing.T) {
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+		Format: serializer.Formatter{
+			TimestampUnits: "1abc",
+		},
+	}
+	err := k.Init()
+	require.Error(t, err, "Should return error")
+}
+
+func TestConnect_WhenError(t *testing.T) {
+	k := Firehose{
+		StreamName: testStreamName,
+		BatchSize:  maxRecordsPerRequest,
+		CredentialConfig: internalaws.CredentialConfig{
+			Region:    "eu-west-1",
+			AccessKey: "abc",
+			SecretKey: "def",
+		},
+	}
+	err := k.Connect()
+	require.Error(t, err, "Should return error")
 }
 
 type mockFirehosePutRecordBatchResponse struct {
@@ -433,6 +574,13 @@ type mockFirehosePutRecordBatchResponse struct {
 type mockFirehosePutRecordBatch struct {
 	requests  []*awsfirehose.PutRecordBatchInput
 	responses []*mockFirehosePutRecordBatchResponse
+}
+
+func (m *mockFirehosePutRecordBatch) DescribeDeliveryStream(_ context.Context,
+	_ *awsfirehose.DescribeDeliveryStreamInput,
+	_ ...func(*awsfirehose.Options),
+) (*awsfirehose.DescribeDeliveryStreamOutput, error) {
+	return nil, nil
 }
 
 func (m *mockFirehosePutRecordBatch) SetupResponse(

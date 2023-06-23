@@ -1,71 +1,52 @@
+// Note: file taken from https://github.com/influxdata/telegraf/blob/master/plugins/common/shim/example/cmd/main.go
 package main
 
 import (
-	"bufio"
 	"flag"
-	"fmt"
-	"io"
 	"log"
 	"os"
+	"time"
 
-	influxparser "github.com/influxdata/telegraf/plugins/parsers/influx"
+	_ "github.com/muhlba91/telegraf-output-kinesis-data-firehose/plugins/outputs/firehose"
 
-	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/plugins/outputs/firehose"
+	"github.com/influxdata/telegraf/plugins/common/shim"
 )
 
-var Version = "v0.0.0"
+var pollInterval = flag.Duration("poll_interval", 1*time.Second, "how often to send metrics")
+
+var pollIntervalDisabled = flag.Bool(
+	"poll_interval_disabled",
+	false,
+	"set to true to disable polling",
+)
+
+var (
+	configFile = flag.String("config", "", "path to the config file for this plugin")
+	err        error
+)
 
 func main() {
-	flagVersion := flag.Bool("v", false, "Shows the version of the plugin.")
-	flagSampleConfig := flag.Bool("sample", false, "Prints a sample configuration to stdout.")
-	flagConfigFile := flag.String("config", "kinesis_output.toml", "The location of the configuration file to use.")
+	// Parse command line options.
 	flag.Parse()
-
-	if *flagVersion {
-		fmt.Println(Version)
-		return
+	if *pollIntervalDisabled {
+		*pollInterval = shim.PollIntervalDisabled
 	}
 
-	if *flagSampleConfig {
-		fmt.Println(firehose.SampleConfig())
-		return
+	// Create the shim to run the plugin.
+	shimLayer := shim.New()
+
+	// If no config is specified, all imported plugins are loaded.
+	// otherwise, follow what the config asks for.
+	// Check for settings from a config toml file,
+	// (or just use whatever plugins were imported above)
+	if err = shimLayer.LoadConfig(configFile); err != nil {
+		log.Printf("error loading plugin: %s", err)
+		os.Exit(1)
 	}
 
-	stdinBytes, err := io.ReadAll(bufio.NewReader(os.Stdin))
-	if err != nil {
-		terminate("Failed to read passed in data: %s", err)
+	// Run the plugin until stdin closes, or we receive a termination signal.
+	if err = shimLayer.Run(*pollInterval); err != nil {
+		log.Printf("error running plugin: %s", err)
+		os.Exit(1)
 	}
-
-	if len(stdinBytes) == 0 {
-		return
-	}
-
-	parser := influxparser.Parser{}
-	initErr := parser.Init()
-	if initErr != nil {
-		terminate("Failed to instantiate the parser: %s", initErr)
-	}
-
-	metricList, err := parser.Parse(stdinBytes)
-	if err != nil {
-		terminate("Failed to convert the metrics: %s", err)
-	}
-
-	output, err := firehose.NewOutput(*flagConfigFile)
-	if err != nil {
-		terminate("Failed to make Amazon Kinesis Firehose adaptor. Error: %s", err)
-	}
-	err = output.Connect()
-	if err != nil {
-		terminate("Couldn't connect to Amazon Kinesis Firehose. Error: %s", err)
-	}
-	err = output.Write(metricList)
-	if err != nil {
-		terminate("Failed to write to Kinesis. Error: %s", err)
-	}
-}
-
-func terminate(format string, args ...interface{}) {
-	log.Printf(format, args...)
-	os.Exit(10)
 }

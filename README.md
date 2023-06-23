@@ -13,7 +13,7 @@
 
 ---
 
-This plugin makes use of the [Telegraf Output Exec plugin](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/exec).
+This plugin makes use of the [Telegraf Output Execd plugin](https://github.com/influxdata/telegraf/tree/master/plugins/outputs/execd).
 It will batch up Points in one Put request to Amazon Kinesis Data Firehose.
 
 The plugin also provides optional common formatting options, like normalizing keys and flattening the output.
@@ -50,7 +50,7 @@ vi /var/lib/telegraf/firehose/plugin.conf
 - Add the plugin to `/etc/telegraf/telegraf.conf` or into a new file in `/etc/telegraf/telegraf.d`:
 
 ```toml
-[[outputs.exec]]
+[[outputs.execd]]
   command = [ "/var/lib/telegraf/firehose/telegraf-output-kinesis-data-firehose", "-config", "/var/lib/telegraf/firehose/plugin.conf" ]
   data_format = "influx"
 ```
@@ -105,55 +105,7 @@ The required AWS IAM Policy is:
 
 ## Configuration
 
-```toml @plugin.conf
-## AWS region
-region = "eu-west-1"
-
-## AWS credentials
-#access_key = ""
-#secret_key = ""
-#role_arn = ""
-#web_identity_token_file = ""
-#role_session_name = ""
-#profile = ""
-#shared_credential_file = ""
-
-## Endpoint to make request against, the correct endpoint is automatically
-## determined and this option should only be set if you wish to override the
-## default.
-##   ex: endpoint_url = "http://localhost:8000"
-#endpoint_url = ""
-
-## Amazon Kinesis Data Firehose DeliveryStreamName must exist prior to starting telegraf.
-streamname = "DeliveryStreamName"
-
-## 'debug' will show upstream AWS messages.
-debug = false
-
-## 'batchsize' will batch incoming messages for forwarding them to the stream.
-## The maximum batch size is 500 as per AWS documentation.
-batchsize = 500
-
-## 'format' provides formatting options
-#[format]
-  ## 'flatten' flattens all tags and fields into top-level keys
-  #flatten = false
-  ## 'normalize_keys' normalizes all keys to:
-  ## 1/ convert to lower case, and
-  ## 2/ replace spaces (' ') with underscores ('_')
-  #normalize_keys = false
-  ## 'name_key_rename' renames the 'name' field to the provided value
-  #name_key_rename = ""
-  ## 'timestamp_as_rfc3339' parses the timestamp into RFC3339 instead of a unix timestamp
-  #timestamp_as_rfc3339 = false
-  ## 'timestamp_units' defines the unix timestamp precision
-  #timestamp_units = "1ms"
-```
-
-For this output plugin to function correctly the following variables must be configured:
-
-- region: the AWS region to connect to
-- streamname: used to send data to the correct stream (the stream *MUST* be pre-configured prior to starting this plugin!)
+See the file [`plugin.conf`](plugin.conf) as an example configuration file.
 
 ---
 
