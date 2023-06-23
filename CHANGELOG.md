@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [2.0.1](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v2.0.0...v2.0.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* print error on connection ([81573e5](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/81573e573d8418589b8779b94971f787ba5496d2))
+
+
+### Miscellaneous Chores
+
+* **deps:** update module github.com/influxdata/telegraf to v1.27.1 ([aca4e2e](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/aca4e2e9debc8d7b184e16d2ad86af52b691a61c))
+
 ## [2.0.0](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v1.4.2...v2.0.0) (2023-06-21)
 
 
