@@ -104,7 +104,12 @@ func (k *Output) Connect() error {
 	_, err = svc.DescribeDeliveryStream(context.Background(), &awsfirehose.DescribeDeliveryStreamInput{
 		DeliveryStreamName: aws.String(k.StreamName),
 	})
-	log.Printf("Verification of the connection to Amazon Kinesis Data Firehose %s in region %s resulted in (nil = success): %s", k.StreamName, k.Region, err)
+	log.Printf(
+		"Verification of the connection to Amazon Kinesis Data Firehose %s in region %s resulted in (nil = success): %s",
+		k.StreamName,
+		k.Region,
+		err,
+	)
 	k.svc = svc
 
 	return err
