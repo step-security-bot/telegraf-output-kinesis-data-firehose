@@ -21,7 +21,7 @@ builds:
       - windows
       - linux
     ldflags:
-      - -X github.com/muhlba91/telegraf-output-kinesis-data-firehose/cmd/main.Version={{ .Tag }}
+      - -X github.com/muhlba91/telegraf-output-kinesis-data-firehose/plugins/outputs/firehose/version.Version={{ .Tag }}
 source:
   enabled: true
 signs:

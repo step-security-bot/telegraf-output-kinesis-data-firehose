@@ -8,11 +8,10 @@ import (
 	"time"
 
 	_ "github.com/muhlba91/telegraf-output-kinesis-data-firehose/plugins/outputs/firehose"
+	"github.com/muhlba91/telegraf-output-kinesis-data-firehose/plugins/outputs/firehose/version"
 
 	"github.com/influxdata/telegraf/plugins/common/shim"
 )
-
-var Version string
 
 var pollInterval = flag.Duration("poll_interval", 1*time.Second, "how often to send metrics")
 
@@ -28,7 +27,7 @@ var (
 )
 
 func main() {
-	log.Printf("aws kinesis data firehose plugin version: %s", Version)
+	log.Printf("aws kinesis data firehose plugin version: %s", version.Version)
 
 	// Parse command line options.
 	flag.Parse()
