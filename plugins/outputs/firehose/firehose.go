@@ -91,7 +91,7 @@ func NewOutput(configFilePath string) (*Output, error) {
 
 func (k *Output) Connect() error {
 	if k.Debug {
-		log.Printf("Establishing a connection to Amazon Kinesis Data Firehose in %s", k.Region)
+		log.Printf("Establishing a connection to Amazon Kinesis Data Firehose in region %s", k.Region)
 	}
 
 	cfg, err := k.CredentialConfig.Credentials()
@@ -104,8 +104,8 @@ func (k *Output) Connect() error {
 	_, err = svc.DescribeDeliveryStream(context.Background(), &awsfirehose.DescribeDeliveryStreamInput{
 		DeliveryStreamName: aws.String(k.StreamName),
 	})
+	log.Printf("Verification of the connection to Amazon Kinesis Data Firehose %s in region %s resulted in (nil = success): %s", k.StreamName, k.Region, err)
 	k.svc = svc
-	log.Printf("Connected to Amazon Kinesis Data Firehose %s in %s: %t", k.StreamName, k.Region, err == nil)
 
 	return err
 }

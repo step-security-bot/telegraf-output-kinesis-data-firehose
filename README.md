@@ -76,6 +76,28 @@ If you are using credentials from a web identity provider, you can specify the
 session name using `role_session_name`.
 If left empty, the current timestamp will be used.
 
+### AWS IAM Policy
+
+The required AWS IAM Policy is:
+
+```json
+{
+    "Statement": [
+        {
+            "Action": [
+                "firehose:PutRecordBatch",
+                "firehose:PutRecord",
+                "firehose:DescribeDeliveryStream"
+            ],
+            "Effect": "Allow",
+            "Resource":  "arn:aws:firehose:REGION:ACCOUNT_ID:deliverystream/STREAM_NAME",
+            "Sid": ""
+        }
+    ],
+    "Version": "2012-10-17"
+}
+```
+
 ## Configuration
 
 ```toml @plugin.conf
