@@ -1,6 +1,22 @@
 # Changelog
 
 
+## [3.0.0](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v2.0.1...v3.0.0) (2023-06-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* telegraf output execd must be used from now on
+
+### Features
+
+* changes executor compatibility from exec to execd ([defd771](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/defd771e7ad2ae3e3bb07ffa0f3f2892c5d112b5))
+
+
+### Bug Fixes
+
+* fix linting errors ([0938090](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/093809081bcb05282260a9cf8befbeb9db3aaacd))
+
 ## [2.0.1](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v2.0.0...v2.0.1) (2023-06-23)
 
 
