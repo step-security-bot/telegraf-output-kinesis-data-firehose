@@ -3,7 +3,7 @@ module github.com/muhlba91/telegraf-output-kinesis-data-firehose
 go 1.20
 
 require (
-	github.com/aws/aws-sdk-go-v2 v1.19.0
+	github.com/aws/aws-sdk-go-v2 v1.19.1
 	github.com/aws/aws-sdk-go-v2/service/firehose v1.16.15
 	github.com/influxdata/telegraf v1.27.2
 	github.com/stretchr/testify v1.8.4
