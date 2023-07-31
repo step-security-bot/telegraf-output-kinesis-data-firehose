@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/aws/aws-sdk-go-v2 v1.19.1
 	github.com/aws/aws-sdk-go-v2/service/firehose v1.16.16
-	github.com/influxdata/telegraf v1.27.2
+	github.com/influxdata/telegraf v1.27.3
 	github.com/stretchr/testify v1.8.4
 )
 
@@ -24,19 +24,20 @@ require (
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.36 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.30 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/ini v1.3.35 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.28 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.29 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sso v1.12.12 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.14.12 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.19.2 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.19.3 // indirect
 	github.com/aws/smithy-go v1.13.5 // indirect
 	github.com/benbjohnson/clock v1.3.5 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/compose-spec/compose-go v1.16.0 // indirect
-	github.com/containerd/containerd v1.6.18 // indirect
+	github.com/containerd/containerd v1.6.19 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
+	github.com/cpuguy83/dockercfg v0.3.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/docker/distribution v2.8.2+incompatible // indirect
-	github.com/docker/docker v23.0.4+incompatible // indirect
+	github.com/docker/docker v23.0.5+incompatible // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/fatih/color v1.15.0 // indirect
@@ -47,8 +48,9 @@ require (
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gosnmp/gosnmp v1.35.1-0.20230602062452-f30602b8dad6 // indirect
+	github.com/imdario/mergo v0.3.16 // indirect
 	github.com/influxdata/toml v0.0.0-20190415235208-270119a8ce65 // indirect
-	github.com/klauspost/compress v1.16.6 // indirect
+	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
@@ -56,7 +58,7 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/moby/patternmatcher v0.5.0 // indirect
 	github.com/moby/sys/sequential v0.5.0 // indirect
-	github.com/moby/term v0.0.0-20221128092401-c43b287e0e0f // indirect
+	github.com/moby/term v0.5.0 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/naoina/go-stringutil v0.1.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
@@ -67,7 +69,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sleepinggenius2/gosmi v0.4.4 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
-	github.com/testcontainers/testcontainers-go v0.18.0 // indirect
+	github.com/testcontainers/testcontainers-go v0.21.0 // indirect
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
 	golang.org/x/crypto v0.11.0 // indirect
 	golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df // indirect
