@@ -169,6 +169,8 @@ github.com/aws/aws-sdk-go-v2/service/firehose v1.17.4 h1:csIOxivQjBFXjAC4eG8x5H/
 github.com/aws/aws-sdk-go-v2/service/firehose v1.17.4/go.mod h1:pSJ34FEQ+u9pgOfancrrbffK8p0Q5fOh4hmca6lpnSY=
 github.com/aws/aws-sdk-go-v2/service/firehose v1.17.5 h1:L9C2CDJ46zlS+T/Izi6YRQm2BDv+xzx+s1DFnm5ODLc=
 github.com/aws/aws-sdk-go-v2/service/firehose v1.17.5/go.mod h1:LaKo3QD/FCMbX07y/33Y5HwlLxn64jHuyBnZRY381Jc=
+github.com/aws/aws-sdk-go-v2/service/firehose v1.18.0 h1:FI6GJqWGhu/2MXEzXArSIbW9b38cIX11ru0Cn4oAltM=
+github.com/aws/aws-sdk-go-v2/service/firehose v1.18.0/go.mod h1:LaKo3QD/FCMbX07y/33Y5HwlLxn64jHuyBnZRY381Jc=
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.10 h1:dpiPHgmFstgkLG07KaYAewvuptq5kvo52xn7tVSrtrQ=
 github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.7.28 h1:/D994rtMQd1jQ2OY+7tvUlMlrv1L1c7Xtma/FhkbVtY=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.28 h1:bkRyG4a929RCnpVSTvLM2j/T4ls015ZhhYApbmYs15s=
