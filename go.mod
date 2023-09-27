@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.21.0
-	github.com/aws/aws-sdk-go-v2/service/firehose v1.18.0
+	github.com/aws/aws-sdk-go-v2/service/firehose v1.19.0
 	github.com/influxdata/telegraf v1.27.4
 	github.com/stretchr/testify v1.8.4
 )
