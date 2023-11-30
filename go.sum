@@ -208,6 +208,8 @@ github.com/aws/aws-sdk-go-v2/internal/configsources v1.2.4 h1:LAm3Ycm9HJfbSCd5I+
 github.com/aws/aws-sdk-go-v2/internal/configsources v1.2.4/go.mod h1:xEhvbJcyUf/31yfGSQBe01fukXwXJ0gxDp7rLfymWE0=
 github.com/aws/aws-sdk-go-v2/internal/configsources v1.2.5 h1:16Z1XuMUv63fcyW5bIUno6AFcX4drsrE0gof+xue6g4=
 github.com/aws/aws-sdk-go-v2/internal/configsources v1.2.5/go.mod h1:pRvFacV2qbRKy34ZFptHZW4wpauJA445bqFbvA6ikSo=
+github.com/aws/aws-sdk-go-v2/internal/configsources v1.2.7 h1:eMqD7ku6WGdmcWWXPYun9m6yk6feSULLhJlAtN6rYG4=
+github.com/aws/aws-sdk-go-v2/internal/configsources v1.2.7/go.mod h1:0oBIfcDV6LScxEW0VgOqxT3e4aqKRp+SYhB9wAd5E3Q=
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.35/go.mod h1:SJC1nEVVva1g3pHAIdCp7QsRIkMmLAgoDquQ9Rr8kYw=
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.36 h1:7ZApaXzWbo8slc+W5TynuUlB4z66g44h7uqa3/d/BsY=
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.36/go.mod h1:rwr4WnmFi3RJO0M4dxbJtgi9BPLMpVBMX1nUte5ha9U=
@@ -225,6 +227,8 @@ github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.5.4 h1:4GV0kKZzUxiWxSVpn/9
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.5.4/go.mod h1:dYvTNAggxDZy6y1AF7YDwXsPuHFy/VNEpEI/2dWK9IU=
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.5.5 h1:RxpMuBgzP3Dj1n5CZY6droLFcsn5gc7QsrIcaGQoeCs=
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.5.5/go.mod h1:dO8Js7ym4Jzg/wcjTgCRVln/jFn3nI82XNhsG2lWbDI=
+github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.5.7 h1:+XYhWhgWs5F3Zx8oa49CXzNvfXrItaDjZB/M172fcHQ=
+github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.5.7/go.mod h1:L6tcSRyCGxcKfDWUrmv2jv8G1cLDU7d0FUpEFpG9bVE=
 github.com/aws/aws-sdk-go-v2/internal/ini v1.3.43 h1:g+qlObJH4Kn4n21g69DjspU0hKTjWtq7naZ9OLCv0ew=
 github.com/aws/aws-sdk-go-v2/internal/ini v1.3.43/go.mod h1:rzfdUlfA+jdgLDmPKjd3Chq9V7LVLYo1Nz++Wb91aRo=
 github.com/aws/aws-sdk-go-v2/internal/ini v1.3.45 h1:hze8YsjSh8Wl1rYa1CJpRmXP21BvOBuc76YhW0HsuQ4=
@@ -257,6 +261,8 @@ github.com/aws/aws-sdk-go-v2/service/firehose v1.21.3 h1:8hR6SxyBlsfmRWncqoqtwnq
 github.com/aws/aws-sdk-go-v2/service/firehose v1.21.3/go.mod h1:9vEkW0ElgdQAXnj3PgOW8Q4mw97BrDQMRBrOKsUHon4=
 github.com/aws/aws-sdk-go-v2/service/firehose v1.21.5 h1:gLNZnF3gRfpcu9B/Gyd3HzTJyOivjjA1py51dy2A9eA=
 github.com/aws/aws-sdk-go-v2/service/firehose v1.21.5/go.mod h1:2KnxuJ+aPbvIgT91+hlv2kNxt2gAt0AFopwVdV8uts4=
+github.com/aws/aws-sdk-go-v2/service/firehose v1.22.1 h1:kv5VDDIHMt+WjAtVh6os8Cr0he0/lqbEXC0kZ9vPuZg=
+github.com/aws/aws-sdk-go-v2/service/firehose v1.22.1/go.mod h1:WjeL+1mzUQTHp+ZYlgsXrdGhJ2F0pxYXP/xdcbEaR1k=
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.11 h1:y2+VQzC6Zh2ojtV2LoC0MNwHWc6qXv/j2vrQtlftkdA=
 github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.9.11/go.mod h1:iV4q2hsqtNECrfmlXyord9u4zyuFEJX9eLgLpSPzWA8=
 github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.1.29 h1:zZSLP3v3riMOP14H7b4XP0uyfREDQOYv2cqIrvTXDNQ=
