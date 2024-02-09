@@ -53,7 +53,7 @@ jobs:
           go-version: '${{ matrix.go-version }}'
 
       - name: Lint
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@v4
         with:
           version: '${{ matrix.golangci-lint-version }}'
           args: -c .golangci.yml
