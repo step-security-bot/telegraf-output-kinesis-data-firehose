@@ -93,6 +93,7 @@ jobs:
       actions: read
       security-events: write
       statuses: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -100,18 +101,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: hashicorp/vault-action@v3
+        id: import-secrets
+        with:
+          method: jwt
+          url: ${{ secrets.VAULT_ADDR }}
+          path: ${{ secrets.VAULT_PATH }}
+          role: ${{ secrets.VAULT_ROLE }}
+          secrets: |
+            github-telegraf-output-kinesis-data-firehose/data/snyk token | SNYK_TOKEN
+
       - name: Snyk Monitor
         uses: snyk/actions/golang@master
         continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
 
       - name: Snyk Test
         uses: snyk/actions/golang@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=medium --fail-on=all --sarif-file-output=snyk.sarif
 
