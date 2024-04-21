@@ -2,7 +2,7 @@ module github.com/muhlba91/telegraf-output-kinesis-data-firehose
 
 go 1.22
 
-toolchain go1.22.0
+toolchain go1.22.2
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.26.1
