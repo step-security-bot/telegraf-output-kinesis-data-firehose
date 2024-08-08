@@ -7,8 +7,11 @@ on:
       - main
 
 permissions:
-  contents: read
-  pull-requests: read
+  contents: write
+  pull-requests: write
+  packages: write
+  id-token: write
+  attestations: write
 
 env:
   GO111MODULE: "on"
@@ -19,21 +22,15 @@ jobs:
     name: Release
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
-      - uses: google-github-actions/release-please-action@v4
+      - uses: googleapis/release-please-action@v4
         id: release
 
   publish:
     if: needs.release.outputs.release_created
     runs-on: ubuntu-latest
     name: Publish Plugin
-    permissions:
-      id-token: write
-      contents: write
     needs:
       - release
     strategy:
@@ -64,3 +61,15 @@ jobs:
           version: latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Attestations
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: |
+            dist/*.tar.gz
+            dist/*.sbom
+            dist/*.sbom.json
+            dist/*_checksums.txt
+            dist/*.sig
+            dist/*.pem
+        continue-on-error: true # attestations are in alpha stage
