@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/talos-systems/conform
-    rev: v0.1.0-alpha.27
+    rev: v0.1.0-alpha.30
     hooks:
       - id: conform
         stages:
@@ -19,7 +19,7 @@ repos:
     hooks:
       - id: go-mod-tidy
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.6.0
     hooks:
       - id: check-json
       - id: check-merge-conflict
