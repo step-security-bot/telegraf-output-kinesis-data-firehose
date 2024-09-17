@@ -1,6 +1,23 @@
 # Changelog
 
 
+## [3.2.1](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v3.2.0...v3.2.1) (2024-09-17)
+
+
+### Miscellaneous Chores
+
+* **deps:** update anchore/sbom-action action to v0.17.1 ([7663206](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/7663206df2335b2e702a571a1f998912feb359e1))
+* **deps:** update anchore/sbom-action action to v0.17.2 ([c3200e1](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/c3200e11b0c1fa4d1f5c030cffb41f63d1011e96))
+* **deps:** update aws-sdk-go-v2 monorepo ([ef99604](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/ef996043049fde0eb0efe0f92b6c4210670f7a69))
+* **deps:** update aws-sdk-go-v2 monorepo ([0de7840](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/0de7840d03b79cc06905f3970775edee2d753a7d))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/firehose to v1.32.2 ([7cfb39e](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/7cfb39ead022647c6d4201a2fb0084aa5810906c))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/firehose to v1.32.4 ([f227899](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/f22789906356108a864d74244879abdf056379f3))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/firehose to v1.32.5 ([d359087](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/d3590872278436d091cf2dbdaae0a2aec5bdbdd1))
+* **deps:** update module github.com/influxdata/telegraf to v1.31.3 ([6a88498](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/6a88498997ec7bb739ef5a379ca9a2631d17c5a1))
+* **deps:** update module github.com/influxdata/telegraf to v1.32.0 ([1596c75](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/1596c753ef260186fb198d43a45b844ee6fb685c))
+* **deps:** update to go 1.23.x ([c244479](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/c2444793151195a28f4706adc5c9381df12340f1))
+* update goreleaser config version to 2 ([865c55b](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/865c55b56b8cec06772758173476c67db39c828b))
+
 ## [3.2.0](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v3.1.0...v3.2.0) (2024-08-08)
 
 
