@@ -1,6 +1,27 @@
 # Changelog
 
 
+## [3.2.2](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v3.2.1...v3.2.2) (2024-10-21)
+
+
+### Miscellaneous Chores
+
+* **deps:** update anchore/sbom-action action to v0.17.3 ([5dc38ac](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/5dc38ac932b5c012ea432c449de46ea0c9e7010a))
+* **deps:** update anchore/sbom-action action to v0.17.4 ([af2e09e](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/af2e09ec0cd34c3d91bb52d9aad3fa24c3db96cd))
+* **deps:** update anchore/sbom-action action to v0.17.5 ([833034d](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/833034db79aefa76c05fd8c4b7cc6c992de5b334))
+* **deps:** update aws-sdk-go-v2 monorepo ([5d294bd](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/5d294bdd79c116ade0ff2a442eed6890142f3793))
+* **deps:** update aws-sdk-go-v2 monorepo ([eee609c](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/eee609cc8e9ba85c8c774bfb896d569d0e9f5dad))
+* **deps:** update aws-sdk-go-v2 monorepo ([d680b92](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/d680b9241300a8a04e409f8f5c6ba30c41012fac))
+* **deps:** update aws-sdk-go-v2 monorepo ([55bc83c](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/55bc83c26cbb6722bdf8cda9ea9c7f8035c25ad0))
+* **deps:** update dependency go to v1.23.2 ([49e263c](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/49e263cec7e0856ebd2544c43d550f9d0255c267))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/firehose to v1.33.1 ([5358784](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/5358784b6804423ed1a1a88ce120bc76defa6ffe))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/firehose to v1.33.2 ([f6f5998](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/f6f5998db17b5928d32dac5565a5bb659e589f68))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/firehose to v1.33.3 ([e1a5368](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/e1a5368a3417d7ac5bc5f67a665c69f9105a856c))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/firehose to v1.33.4 ([89291e3](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/89291e3313e8026f02035f1bbeb2eea7affdec67))
+* **deps:** update module github.com/aws/aws-sdk-go-v2/service/firehose to v1.33.5 ([65349ff](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/65349ff0cd1c880fe10fea715b015233e363dc62))
+* **deps:** update module github.com/influxdata/telegraf to v1.32.1 ([dc401d7](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/dc401d708ff94c747d4b569137fc624f7b21105c))
+* **deps:** update sigstore/cosign-installer action to v3.7.0 ([23cbcc7](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/commit/23cbcc7fcffb118795530a8d156016937d0b5ce3))
+
 ## [3.2.1](https://github.com/muhlba91/telegraf-output-kinesis-data-firehose/compare/v3.2.0...v3.2.1) (2024-09-17)
 
 
